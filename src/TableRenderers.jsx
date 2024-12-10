@@ -61,8 +61,6 @@ function makeRenderer(opts = {}) {
       const rowKeys = pivotData.getRowKeys();
       const colKeys = pivotData.getColKeys();
       const hideTotals=pivotData.props.hideTotals
-      const hideRowTotals = pivotData.props.hideRowTotals;
-      const hideColTotals = pivotData.props.hideColTotals;
       const grandTotalAggregator = pivotData.getAggregator([], []);
 
       let valueCellColors = () => {};

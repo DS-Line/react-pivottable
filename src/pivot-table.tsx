@@ -38,11 +38,11 @@ export default function LocalPivotTable({
       setRequiredProps(() => {
         return {
           ...e,
-          rows: e.rows?.filter((el) => el !== '227'),
-          cols: e.cols?.filter((el) => el !== '2at'),
+          rows: e.rows?.filter((el) => el !== '3c6'),
+          cols: e.cols?.filter((el) => el !== '3ks'),
           aggregatorName:
-            e.cols?.filter((el) => el !== '2at').length === 0 ||
-            e.rows?.filter((el) => el !== '227').length === 0
+            e.cols?.filter((el) => el !== '3c6').length === 0 ||
+            e.rows?.filter((el) => el !== '3ks').length === 0
               ? 'None'
               : e.aggregatorName === 'None'
                 ? 'Count'

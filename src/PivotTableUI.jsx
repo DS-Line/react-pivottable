@@ -286,8 +286,6 @@ class PivotTableUI extends React.PureComponent {
   }
 
   sendPropUpdate(command) {
-    console.log(command)
-    console.log(this.props)
     this.props.onChange(update(this.props, command));
   }
 
@@ -355,7 +353,7 @@ class PivotTableUI extends React.PureComponent {
         className={classes}
         onChange={onChange}
       >
-        {label && <label>{label}</label>}
+        {label && <label className='text-sm font-bold'>{label}</label>}
         {items.map(x => (
           <DraggableAttribute
             name={x}
@@ -421,7 +419,20 @@ class PivotTableUI extends React.PureComponent {
 
     const aggregatorCell = (
       <td className="pvtVals flex flex-col items-start">
-        <label className="text-sm">Aggregators</label>
+        <div className='flex gap-4'> 
+        <label className="text-sm font-bold">Aggregators</label>
+        <label className='flex gap-1 text-sm items-center justify-center'>
+        <input 
+        className='self-baseline'
+        onClick={()=> {
+            this.setState({
+              hideTotals:!this.state.hideTotals
+            })
+            this.propUpdater("hideTotals")(!this.state.hideTotals)
+            }} type='checkbox' placeholder='Show Totals' checked={!this.state.hideTotals}/>
+          Show Totals
+          </label>
+          </div>
         <div className='flex'>
         <Dropdown
           current={this.props.aggregatorName}
@@ -509,7 +520,7 @@ class PivotTableUI extends React.PureComponent {
       }),
       `pvtAxisContainer pvtUnused w-full ${
         horizUnused ? 'pvtHorizList' : 'pvtVertList'
-      }`,"Unused"
+      }`,"Unused Attributes"
     );
 
     const colAttrs = this.props.cols.filter(
@@ -549,13 +560,6 @@ class PivotTableUI extends React.PureComponent {
     if (horizUnused) {
       return (
         <table className="pvtUi">
-          <button onClick={()=> {
-            this.setState({
-              hideTotals:!this.state.hideTotals
-            })
-            this.propUpdater("hideTotals")(!this.state.hideTotals)
-            }}>Show Totals</button>
-
           <tbody onClick={() => this.setState({openDropdown: false})}>
             <tr>
               {rendererCell}
