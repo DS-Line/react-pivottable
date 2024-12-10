@@ -372,7 +372,21 @@ const aggregatorTemplates = {
       };
     };
   },
-
+  doNothing(formatter = usFmtInt){
+    return () =>
+      function() {
+        return {
+          count: 0,
+          push() {
+            this.count++;
+          },
+          value() {
+            return this.count;
+          },
+          format: formatter,
+        };
+      };
+  },
   fractionOf(wrapped, type = 'total', formatter = usFmtPct) {
     return (...x) =>
       function(data, rowKey, colKey) {
@@ -420,6 +434,7 @@ aggregatorTemplates.stdev = (ddof, f) =>
 
 // default aggregators & renderers use US naming and number formatting
 const aggregators = (tpl => ({
+  'None': tpl.doNothing(usFmtInt),
   Count: tpl.count(usFmtInt),
   'Count Unique Values': tpl.countUnique(usFmtInt),
   'List Unique Values': tpl.listUnique(', '),
@@ -783,6 +798,7 @@ PivotData.defaultProps = {
   rowOrder: 'key_a_to_z',
   colOrder: 'key_a_to_z',
   derivedAttributes: {},
+  
 };
 
 PivotData.propTypes = {
@@ -800,6 +816,8 @@ PivotData.propTypes = {
   derivedAttributes: PropTypes.objectOf(PropTypes.func),
   rowOrder: PropTypes.oneOf(['key_a_to_z', 'value_a_to_z', 'value_z_to_a']),
   colOrder: PropTypes.oneOf(['key_a_to_z', 'value_a_to_z', 'value_z_to_a']),
+  hideRowTotals: PropTypes.bool,
+  hideColTotals: PropTypes.bool
 };
 
 export {

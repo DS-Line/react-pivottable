@@ -237,6 +237,7 @@ class PivotTableUI extends React.PureComponent {
       openDropdown: false,
       attrValues: {},
       materializedInput: [],
+      hideTotals:true
     };
   }
 
@@ -285,6 +286,8 @@ class PivotTableUI extends React.PureComponent {
   }
 
   sendPropUpdate(command) {
+    console.log(command)
+    console.log(this.props)
     this.props.onChange(update(this.props, command));
   }
 
@@ -339,7 +342,7 @@ class PivotTableUI extends React.PureComponent {
     return this.state.openDropdown === dropdown;
   }
 
-  makeDnDCell(items, onChange, classes) {
+  makeDnDCell(items, onChange, classes, label) {
     return (
       <Sortable
         options={{
@@ -352,6 +355,7 @@ class PivotTableUI extends React.PureComponent {
         className={classes}
         onChange={onChange}
       >
+        {label && <label>{label}</label>}
         {items.map(x => (
           <DraggableAttribute
             name={x}
@@ -416,18 +420,25 @@ class PivotTableUI extends React.PureComponent {
     };
 
     const aggregatorCell = (
-      <td className="pvtVals">
+      <td className="pvtVals flex flex-col items-start">
+        <label className="text-sm">Aggregators</label>
+        <div className='flex'>
         <Dropdown
           current={this.props.aggregatorName}
           values={Object.keys(this.props.aggregators)}
           open={this.isOpen('aggregators')}
           zIndex={this.isOpen('aggregators') ? this.state.maxZIndex + 1 : 1}
-          toggle={() =>
-            this.setState({
-              openDropdown: this.isOpen('aggregators') ? false : 'aggregators',
-            })
+          toggle={() =>{
+            if(this.props.cols.length && this.props.rows.length){
+              return this.setState({
+                openDropdown: this.isOpen('aggregators') ? false : 'aggregators',
+              })
+            }
+            return
+          }
           }
           setValue={this.propUpdater('aggregatorName')}
+          
         />
         <a
           role="button"
@@ -448,6 +459,7 @@ class PivotTableUI extends React.PureComponent {
           {sortIcons[this.props.colOrder].colSymbol}
         </a>
         {numValsAllowed > 0 && <br />}
+        </div>
         {new Array(numValsAllowed).fill().map((n, i) => [
           <Dropdown
             key={i}
@@ -491,10 +503,13 @@ class PivotTableUI extends React.PureComponent {
 
     const unusedAttrsCell = this.makeDnDCell(
       unusedAttrs,
-      order => this.setState({unusedOrder: order}),
-      `pvtAxisContainer pvtUnused ${
+      order => this.setState((curr)=> {
+        console.log(curr)
+        return  {unusedOrder: order}
+      }),
+      `pvtAxisContainer pvtUnused w-full ${
         horizUnused ? 'pvtHorizList' : 'pvtVertList'
-      }`
+      }`,"Unused"
     );
 
     const colAttrs = this.props.cols.filter(
@@ -506,7 +521,8 @@ class PivotTableUI extends React.PureComponent {
     const colAttrsCell = this.makeDnDCell(
       colAttrs,
       this.propUpdater('cols'),
-      'pvtAxisContainer pvtHorizList pvtCols'
+      'pvtAxisContainer pvtHorizList pvtCols',
+      "Columns"
     );
 
     const rowAttrs = this.props.rows.filter(
@@ -517,7 +533,8 @@ class PivotTableUI extends React.PureComponent {
     const rowAttrsCell = this.makeDnDCell(
       rowAttrs,
       this.propUpdater('rows'),
-      'pvtAxisContainer pvtVertList pvtRows'
+      'pvtAxisContainer pvtVertList pvtRows',
+      "Rows"
     );
     const outputCell = (
       <td className="pvtOutput">
@@ -532,12 +549,20 @@ class PivotTableUI extends React.PureComponent {
     if (horizUnused) {
       return (
         <table className="pvtUi">
+          <button onClick={()=> {
+            console.log(this.state.hideTotals, this.state.hideColTotals)
+            this.setState({
+              hideRowTotals:!this.state.hideTotals
+            })
+            this.propUpdater("hideTotals")(!this.state.hideTotals)
+            }}>Show Totals</button>
+
           <tbody onClick={() => this.setState({openDropdown: false})}>
             <tr>
               {rendererCell}
               {unusedAttrsCell}
             </tr>
-            <tr>
+             <tr>
               {aggregatorCell}
               {colAttrsCell}
             </tr>

@@ -60,6 +60,9 @@ function makeRenderer(opts = {}) {
       const rowAttrs = pivotData.props.rows;
       const rowKeys = pivotData.getRowKeys();
       const colKeys = pivotData.getColKeys();
+      const hideTotals=pivotData.props.hideTotals
+      const hideRowTotals = pivotData.props.hideRowTotals;
+      const hideColTotals = pivotData.props.hideColTotals;
       const grandTotalAggregator = pivotData.getAggregator([], []);
 
       let valueCellColors = () => {};
@@ -163,7 +166,7 @@ function makeRenderer(opts = {}) {
                     );
                   })}
 
-                  {j === 0 && (
+                  {j === 0 && !hideTotals && (
                     <th
                       className="pvtTotalLabel"
                       rowSpan={
@@ -186,9 +189,9 @@ function makeRenderer(opts = {}) {
                     </th>
                   );
                 })}
-                <th className="pvtTotalLabel">
+                {!hideTotals && <th className="pvtTotalLabel">
                   {colAttrs.length === 0 ? 'Totals' : null}
-                </th>
+                </th>}
               </tr>
             )}
           </thead>
@@ -238,7 +241,7 @@ function makeRenderer(opts = {}) {
                       </td>
                     );
                   })}
-                  <td
+                  {!hideTotals && <td
                     className="pvtTotal"
                     onClick={
                       getClickHandler &&
@@ -247,23 +250,23 @@ function makeRenderer(opts = {}) {
                     style={colTotalColors(totalAggregator.value())}
                   >
                     {totalAggregator.format(totalAggregator.value())}
-                  </td>
+                  </td>}
                 </tr>
               );
             })}
 
             <tr>
-              <th
+              {!hideTotals && <th
                 className="pvtTotalLabel"
                 colSpan={rowAttrs.length + (colAttrs.length === 0 ? 0 : 1)}
               >
                 Totals
-              </th>
+              </th>}
 
               {colKeys.map(function(colKey, i) {
                 const totalAggregator = pivotData.getAggregator([], colKey);
                 return (
-                  <td
+                  !hideTotals && <td
                     className="pvtTotal"
                     key={`total${i}`}
                     onClick={
@@ -277,7 +280,7 @@ function makeRenderer(opts = {}) {
                 );
               })}
 
-              <td
+              {!hideTotals && (<td
                 onClick={
                   getClickHandler &&
                   getClickHandler(grandTotalAggregator.value(), [null], [null])
@@ -285,7 +288,7 @@ function makeRenderer(opts = {}) {
                 className="pvtGrandTotal"
               >
                 {grandTotalAggregator.format(grandTotalAggregator.value())}
-              </td>
+              </td>)}
             </tr>
           </tbody>
         </table>
@@ -299,6 +302,8 @@ function makeRenderer(opts = {}) {
   TableRenderer.defaultProps.tableOptions = {};
   TableRenderer.propTypes.tableColorScaleGenerator = PropTypes.func;
   TableRenderer.propTypes.tableOptions = PropTypes.object;
+  TableRenderer.hideColTotals=PropTypes.bool
+  TableRenderer.hideRowTotals=PropTypes.bool
   return TableRenderer;
 }
 
