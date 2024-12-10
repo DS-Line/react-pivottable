@@ -550,9 +550,8 @@ class PivotTableUI extends React.PureComponent {
       return (
         <table className="pvtUi">
           <button onClick={()=> {
-            console.log(this.state.hideTotals, this.state.hideColTotals)
             this.setState({
-              hideRowTotals:!this.state.hideTotals
+              hideTotals:!this.state.hideTotals
             })
             this.propUpdater("hideTotals")(!this.state.hideTotals)
             }}>Show Totals</button>
