@@ -6,8 +6,8 @@ import React, {useState} from 'react';
 
 import './styles.css';
 
-import 'react-pivottable/pivottable.css';
-import PivotTableUI from './../../react-pivottable/src/PivotTableUI';
+import './pivottable.css';
+import PivotTableUI from './PivotTableUI';
 import {PivotTableUIProps} from 'react-pivottable/PivotTableUI';
 import createPlotlyRenderers from 'react-pivottable/PlotlyRenderers';
 import TableRenderers from './TableRenderers';
@@ -45,8 +45,8 @@ export default function LocalPivotTable({
             e.rows?.filter((el) => el !== '3ks').length === 0
               ? 'None'
               : e.aggregatorName === 'None'
-                ? 'Count'
-                : e.aggregatorName,
+              ? 'Count'
+              : e.aggregatorName,
         };
       });
     },
