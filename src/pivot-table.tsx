@@ -9,7 +9,7 @@ import './styles.css';
 import './pivottable.css';
 import PivotTableUI from './PivotTableUI';
 import {PivotTableUIProps} from 'react-pivottable/PivotTableUI';
-import createPlotlyRenderers from 'react-pivottable/PlotlyRenderers';
+import createPlotlyRenderers from './PlotlyRenderers';
 import TableRenderers from './TableRenderers';
 import Plot from 'react-plotly.js';
 
@@ -45,8 +45,8 @@ export default function LocalPivotTable({
             e.rows?.filter((el) => el !== '3ks').length === 0
               ? 'None'
               : e.aggregatorName === 'None'
-              ? 'Count'
-              : e.aggregatorName,
+                ? 'Count'
+                : e.aggregatorName,
         };
       });
     },
