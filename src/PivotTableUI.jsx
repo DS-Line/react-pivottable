@@ -240,7 +240,6 @@ class PivotTableUI extends React.PureComponent {
       openDropdown: false,
       attrValues: {},
       materializedInput: [],
-      hideTotals:true
     };
   }
 
@@ -342,7 +341,10 @@ class PivotTableUI extends React.PureComponent {
   isOpen(dropdown) {
     return this.state.openDropdown === dropdown;
   }
-
+  showTotal(value){
+    console.log(value)
+    return value
+  }
   makeDnDCell(items, onChange, classes, label) {
     return (
       <Sortable
@@ -405,7 +407,6 @@ class PivotTableUI extends React.PureComponent {
         />
       </td>
     );
-
     const sortIcons = {
       key_a_to_z: {
         rowSymbol: '↕',
@@ -419,20 +420,21 @@ class PivotTableUI extends React.PureComponent {
       },
       value_z_to_a: {rowSymbol: '↑', colSymbol: '←', next: 'key_a_to_z'},
     };
-
     const aggregatorCell = (
       <td className="pvtVals flex flex-col items-start">
         <div className='flex gap-4'> 
         <label className="text-sm font-bold">Aggregators</label>
         <label className='flex gap-1 text-sm items-center justify-center'>
         <input 
+        key={!this.state.hideTotals}
         className='self-baseline'
-        onClick={()=> {
+        onChange={()=> {
             this.setState({
               hideTotals:!this.state.hideTotals
             })
             this.propUpdater("hideTotals")(!this.state.hideTotals)
-            }} type='checkbox' placeholder='Show Totals' checked={!this.state.hideTotals}/>
+            }} type='checkbox' placeholder='Show Totals' checked={this.showTotal(!this.state.hideTotals)}/>
+            {console.log(!this.state.hideTotals)}
           Show Totals
           </label>
           </div>

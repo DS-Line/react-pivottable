@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, {useState} from 'react';
+import React from 'react';
 
 import './styles.css';
 
@@ -15,10 +15,14 @@ import Plot from 'react-plotly.js';
 
 export default function LocalPivotTable({
   configurations,
+  setConfigurations
 }: {
-  configurations:  PivotTableUIProps & {
+  configurations:  Omit<PivotTableUIProps,"onChange"> & {
         hideTotals: boolean
       };
+  setConfigurations:(value:Omit<PivotTableUIProps,"onChange"> & {
+    hideTotals: boolean
+  })=> void
 }) {
   const PlotlyRenderers = createPlotlyRenderers(Plot as any); // eslint-disable-line
 
@@ -28,6 +32,16 @@ export default function LocalPivotTable({
         //    data={data}
         renderers={{...TableRenderers, ...PlotlyRenderers}}
         {...configurations}
+        onChange={(e:Omit<PivotTableUIProps,"onChange"> & {
+          hideTotals: boolean
+        })=>{
+          const {aggregators, renderers, ...rest}=e
+          setConfigurations(({
+            ...rest,
+            rows: rest.rows?.filter((el) => el !== "3c6"),
+            cols: rest.cols?.filter((el) => el !== "3ks")
+          }))
+        }}
       />
     </div>
   );

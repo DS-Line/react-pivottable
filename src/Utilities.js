@@ -798,7 +798,6 @@ PivotData.defaultProps = {
   rowOrder: 'key_a_to_z',
   colOrder: 'key_a_to_z',
   derivedAttributes: {},
-  
 };
 
 PivotData.propTypes = {
@@ -816,8 +815,7 @@ PivotData.propTypes = {
   derivedAttributes: PropTypes.objectOf(PropTypes.func),
   rowOrder: PropTypes.oneOf(['key_a_to_z', 'value_a_to_z', 'value_z_to_a']),
   colOrder: PropTypes.oneOf(['key_a_to_z', 'value_a_to_z', 'value_z_to_a']),
-  hideRowTotals: PropTypes.bool,
-  hideColTotals: PropTypes.bool
+  hideTotals: PropTypes.bool
 };
 
 export {
