@@ -83,13 +83,16 @@ export class DraggableAttribute extends React.Component {
               <a
                 role="button"
                 className="pvtButton"
-                onClick={() =>
-                  this.props.removeValuesFromFilter(
-                    this.props.name,
-                    Object.keys(this.props.attrValues).filter(
-                      this.matchesFilter.bind(this)
+                onClick={() =>{
+                  if(shown.length){
+                    this.props.removeValuesFromFilter(
+                      this.props.name,
+                      Object.keys(this.props.attrValues).filter(
+                        this.matchesFilter.bind(this)
+                      )
                     )
-                  )
+                  }
+                }
                 }
               >
                 Select {values.length === shown.length ? 'All' : shown.length}
