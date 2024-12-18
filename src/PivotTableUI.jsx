@@ -342,7 +342,6 @@ class PivotTableUI extends React.PureComponent {
     return this.state.openDropdown === dropdown;
   }
   showTotal(value){
-    console.log(value)
     return value
   }
   makeDnDCell(items, onChange, classes, label) {
@@ -354,11 +353,10 @@ class PivotTableUI extends React.PureComponent {
           filter: '.pvtFilterBox',
           preventOnFilter: false,
         }}
-        tag="td"
+        // tag="td"
         className={classes}
         onChange={onChange}
       >
-        {label && <label className='text-sm font-bold'>{label}</label>}
         {items.map(x => (
           <DraggableAttribute
             name={x}
@@ -434,7 +432,6 @@ class PivotTableUI extends React.PureComponent {
             })
             this.propUpdater("hideTotals")(!this.state.hideTotals)
             }} type='checkbox' placeholder='Show Totals' checked={this.showTotal(!this.state.hideTotals)}/>
-            {console.log(!this.state.hideTotals)}
           Show Totals
           </label>
           </div>
@@ -519,13 +516,10 @@ class PivotTableUI extends React.PureComponent {
 
     const unusedAttrsCell = this.makeDnDCell(
       unusedAttrs,
-      order => this.setState((curr)=> {
-        console.log(curr)
+      order => this.setState(()=> {
         return  {unusedOrder: order}
       }),
-      `pvtAxisContainer pvtUnused w-full ${
-        horizUnused ? 'pvtHorizList' : 'pvtVertList'
-      }`,"Unused Attributes"
+      'pt-4',"Unused Attributes"
     );
 
     const colAttrs = this.props.cols.filter(
@@ -537,7 +531,7 @@ class PivotTableUI extends React.PureComponent {
     const colAttrsCell = this.makeDnDCell(
       colAttrs,
       this.propUpdater('cols'),
-      'pvtAxisContainer pvtHorizList pvtCols',
+      'pt-4',
       "Columns"
     );
 
@@ -549,7 +543,7 @@ class PivotTableUI extends React.PureComponent {
     const rowAttrsCell = this.makeDnDCell(
       rowAttrs,
       this.propUpdater('rows'),
-      'pvtAxisContainer pvtVertList pvtRows',
+      'pt-4',
       "Rows"
     );
     const outputCell = (
@@ -568,14 +562,25 @@ class PivotTableUI extends React.PureComponent {
           <tbody onClick={() => this.setState({openDropdown: false})}>
             <tr>
               {rendererCell}
+              <td className={`relative pvtAxisContainer pvtUnused w-full ${
+        horizUnused ? 'pvtHorizList' : 'pvtVertList'
+      }`}>
+              <label className='absolute text-sm font-bold'>Unused Attributes</label>
               {unusedAttrsCell}
+              </td>
             </tr>
              <tr>
               {aggregatorCell}
+              <td className='relative pvtAxisContainer pvtHorizList pvtCols'>
+              <label className='absolute text-sm font-bold'>Columns</label>
               {colAttrsCell}
+              </td>
             </tr>
             <tr>
+              <td className='relative pvtAxisContainer pvtVertList pvtRows'>
+              <label className='absolute text-sm font-bold'>Rows</label>
               {rowAttrsCell}
+              </td>
               {outputCell}
             </tr>
           </tbody>
