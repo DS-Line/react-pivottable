@@ -5,6 +5,7 @@ import {PivotData, sortAs, getSort} from './Utilities';
 import PivotTable from './PivotTable';
 import Sortable from 'react-sortablejs';
 import Draggable from 'react-draggable';
+import { ChevronDown, X } from 'lucide-react';
 
 /* eslint-disable react/prop-types */
 // eslint can't see inherited propTypes!
@@ -197,7 +198,7 @@ export class Dropdown extends React.PureComponent {
           }
           role="button"
         >
-          <div className="pvtDropdownIcon">{this.props.open ? '×' : '▾'}</div>
+          <div className="pvtDropdownIcon">{this.props.open ? <X width={10} height={20} stroke='black'/> : <ChevronDown className='flex items-center justify-center' width={15} height={20} stroke='black'/>}</div>
           {this.props.current || <span>&nbsp;</span>}
         </div>
 
@@ -213,6 +214,7 @@ export class Dropdown extends React.PureComponent {
                     this.props.toggle();
                   } else {
                     this.props.setValue(r);
+                    this.props.toggle();
                   }
                 }}
                 className={
@@ -421,7 +423,7 @@ class PivotTableUI extends React.PureComponent {
     const aggregatorCell = (
       <td className="pvtVals flex flex-col items-start">
         <div className='flex gap-4'> 
-        <label className="text-sm font-bold">Aggregators</label>
+        <label className="pl-1 text-sm font-bold">Aggregators</label>
         <label className='flex gap-1 text-sm items-center justify-center'>
         <input 
         key={!this.state.hideTotals}
@@ -435,7 +437,7 @@ class PivotTableUI extends React.PureComponent {
           Show Totals
           </label>
           </div>
-        <div className='flex'>
+        <div className='flex mt-3'>
         <Dropdown
           current={this.props.aggregatorName}
           values={Object.keys(this.props.aggregators)}
@@ -572,13 +574,17 @@ class PivotTableUI extends React.PureComponent {
              <tr>
               {aggregatorCell}
               <td className='relative pvtAxisContainer pvtHorizList pvtCols'>
-              <label className='absolute text-sm font-bold'>Columns</label>
+              <label style={{
+                left:"12px"
+              }} className='absolute text-sm font-bold'>Columns</label>
               {colAttrsCell}
               </td>
             </tr>
             <tr>
               <td className='relative pvtAxisContainer pvtVertList pvtRows'>
-              <label className='absolute text-sm font-bold'>Rows</label>
+              <label style={{
+                left:"12px"
+              }} className='absolute text-sm font-bold'>Rows</label>
               {rowAttrsCell}
               </td>
               {outputCell}

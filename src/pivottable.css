@@ -1,6 +1,6 @@
 .pvtUi {
     color: #2a3f5f;
-    font-family: Verdana;
+    font-family: sans-serif;
     border-collapse: collapse;
 }
 .pvtUi select {
@@ -21,7 +21,7 @@ table.pvtTable {
     border-collapse: collapse;
     margin-top: 3px;
     margin-left: 3px;
-    font-family: Verdana;
+    font-family: sans-serif;
 }
 table.pvtTable thead tr th,
 table.pvtTable tbody tr th {
@@ -69,7 +69,7 @@ table.pvtTable tbody tr td {
 .pvtAxisContainer,
 .pvtVals {
     border: 1px solid #a2b1c6;
-    background: #f2f5fa;
+    background: white;
     padding: 5px;
     min-width: 20px;
     min-height: 20px;
@@ -122,7 +122,7 @@ table.pvtTable tbody tr td {
 
 .pvtDropdownValue {
     padding: 2px 5px;
-    font-size: 12px;
+    font-size: 14px;
     text-align: left;
 }
 .pvtDropdownActiveValue {
