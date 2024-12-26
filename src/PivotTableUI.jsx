@@ -49,7 +49,7 @@ export class DraggableAttribute extends React.Component {
       .sort(this.props.sorter);
 
     return (
-      <Draggable handle=".pvtDragHandle">
+      <Draggable defaultClassName='pvtDragBlock' handle=".pvtDragHandle">
         <div
           className="pvtFilterBox"
           style={{
@@ -150,14 +150,13 @@ export class DraggableAttribute extends React.Component {
         : '';
     return (
       <li data-id={this.props.name}>
-        <span className={'pvtAttr ' + filtered}>
+        <span className={'pvtAttr flex justify-between items-center gap-4' + filtered}>
           {this.props.name}
           <span
-            className="pvtTriangle"
+            className="pvtTriangle justify-end"
             onClick={this.toggleFilterBox.bind(this)}
           >
-            {' '}
-            ▾
+            <ChevronDown className='items-center justify-center' width={15} height={20} stroke='black'/>
           </span>
         </span>
 
@@ -533,7 +532,7 @@ class PivotTableUI extends React.PureComponent {
     const colAttrsCell = this.makeDnDCell(
       colAttrs,
       this.propUpdater('cols'),
-      'pt-4',
+      'pt-8',
       "Columns"
     );
 
@@ -545,7 +544,7 @@ class PivotTableUI extends React.PureComponent {
     const rowAttrsCell = this.makeDnDCell(
       rowAttrs,
       this.propUpdater('rows'),
-      'pt-4',
+      'mt-8 rowCustom',
       "Rows"
     );
     const outputCell = (
@@ -581,10 +580,8 @@ class PivotTableUI extends React.PureComponent {
               </td>
             </tr>
             <tr>
-              <td className='relative pvtAxisContainer pvtVertList pvtRows'>
-              <label style={{
-                left:"12px"
-              }} className='absolute text-sm font-bold'>Rows</label>
+              <td className='relative pvtAxisContainer pvtVertList pvtRows '>
+              <label className='absolute pl-3 pr-2 text-sm font-bold bg-white'>Rows</label>
               {rowAttrsCell}
               </td>
               {outputCell}

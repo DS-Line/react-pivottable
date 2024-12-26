@@ -158,9 +158,9 @@ table.pvtTable tbody tr td {
 
 .pvtAxisContainer li span.pvtAttr {
     -webkit-text-size-adjust: 100%;
-    background: #f3f6fa;
+    background: white;
     border: 1px solid #c8d4e3;
-    padding: 2px 5px;
+    padding: 3px 5px;
     white-space: nowrap;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -320,4 +320,13 @@ table.pvtTable tbody tr td {
 
 .pvtRendererArea {
     padding: 5px;
+}
+
+.rowCustom{
+    max-height: 50dvh;
+    overflow: auto;
+}
+
+.rowCustom>li{
+    max-width: 60%;
 }
