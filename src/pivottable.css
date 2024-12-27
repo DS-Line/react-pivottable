@@ -31,7 +31,7 @@ table.pvtTable {
     margin-left: 3px;
     font-family: sans-serif;
     width: max-content;
-    overflow: auto;
+    max-height: 300px;
 }
 
 
@@ -268,7 +268,8 @@ table.pvtTable tbody tr td {
     border: 1px solid #c8d4e3;
     border-radius: 5px;
     color: #506784;
-    padding: 0 3px;
+    padding: 2px 5px;
+    font-weight: normal;
     font-size: 14px;
 }
 
@@ -364,3 +365,7 @@ table.pvtTable tbody tr td {
 /* .rowCustom>li{
     max-width: fit-content;
 } */
+
+.pvtSearch{
+    padding: 5px;
+}

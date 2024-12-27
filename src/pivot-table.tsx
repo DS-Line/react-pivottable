@@ -29,7 +29,7 @@ export default function LocalPivotTable({
   const PlotlyRenderers = createPlotlyRenderers(Plot as any); // eslint-disable-line
 
   return (
-    <div className="pl-8 w-full max-h-[80dvh] h-full overflow-y-auto showSQL">
+    <div className="ml-8 max-w-[90%] max-h-[80dvh] h-full overflow-y-auto showSQL">
       <PivotTableUI
         //    data={data}
         renderers={{...TableRenderers, ...PlotlyRenderers}}

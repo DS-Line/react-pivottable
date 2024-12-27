@@ -117,14 +117,14 @@ export class DraggableAttribute extends React.Component {
 
           {showMenu && (
             <div className="pvtCheckContainer">
-              {shown.map(x => (
+              {shown.map((x,index) => (
                 <p
                   key={x}
                   onClick={() => this.toggleValue(x)}
                   className={x in this.props.valueFilter ? '' : 'selected'}
                 >
                   <a className="pvtOnly" onClick={e => this.selectOnly(e, x)}>
-                    only
+                    {index+1}.
                   </a>
                   <a className="pvtOnlySpacer">&nbsp;</a>
 
@@ -559,7 +559,7 @@ class PivotTableUI extends React.PureComponent {
 
     if (horizUnused) {
       return (
-        <table className="pvtUi mb-4">
+        <table className="pvtUi">
           <tbody onClick={() => this.setState({openDropdown: false})}>
             <tr>
               {rendererCell}
