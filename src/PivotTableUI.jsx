@@ -49,9 +49,9 @@ export class DraggableAttribute extends React.Component {
       .sort(this.props.sorter);
 
     return (
-      <Draggable defaultClassName='pvtDragBlock' handle=".pvtDragHandle">
+      <Draggable handle=".pvtDragHandle">
         <div
-          className="pvtFilterBox"
+          className="pvtFilterBox max-w-[40px]"
           style={{
             display: 'block',
             cursor: 'initial',
@@ -62,7 +62,7 @@ export class DraggableAttribute extends React.Component {
           <a onClick={() => this.setState({open: false})} className="pvtCloseX">
             ×
           </a>
-          <span className="pvtDragHandle">☰</span>
+          {/* <span className="pvtDragHandle">☰</span> */ } {/* remove drag and drop feature */}
           <h4>{this.props.name}</h4>
 
           {showMenu || <p>(too many values to show)</p>}
@@ -149,12 +149,12 @@ export class DraggableAttribute extends React.Component {
         ? 'pvtFilteredAttribute'
         : '';
     return (
-      <li data-id={this.props.name}>
-        <span className={'pvtAttr flex justify-between items-center gap-4' + filtered}>
+      <li className='w-fit' id={this.props.name} data-id={this.props.name}>
+        <span className={'pvtAttr flex justify-between items-center gap-4 ' + filtered}>
           {this.props.name}
           <span
             className="pvtTriangle justify-end"
-            onClick={this.toggleFilterBox.bind(this)}
+            onMouseDown={this.toggleFilterBox.bind(this)}
           >
             <ChevronDown className='items-center justify-center' width={15} height={20} stroke='black'/>
           </span>
@@ -345,16 +345,17 @@ class PivotTableUI extends React.PureComponent {
   showTotal(value){
     return value
   }
-  makeDnDCell(items, onChange, classes, label) {
+  makeDnDCell(items, onChange, classes) {
     return (
       <Sortable
+        id="boundary"
         options={{
           group: 'shared',
           ghostClass: 'pvtPlaceholder',
           filter: '.pvtFilterBox',
           preventOnFilter: false,
         }}
-        // tag="td"
+        // tag="div"
         className={classes}
         onChange={onChange}
       >
@@ -371,6 +372,7 @@ class PivotTableUI extends React.PureComponent {
             moveFilterBoxToTop={this.moveFilterBoxToTop.bind(this)}
             removeValuesFromFilter={this.removeValuesFromFilter.bind(this)}
             zIndex={this.state.zIndices[x] || this.state.maxZIndex}
+
           />
         ))}
       </Sortable>
@@ -520,7 +522,7 @@ class PivotTableUI extends React.PureComponent {
       order => this.setState(()=> {
         return  {unusedOrder: order}
       }),
-      'pt-4',"Unused Attributes"
+      'pt-4'
     );
 
     const colAttrs = this.props.cols.filter(
@@ -532,8 +534,7 @@ class PivotTableUI extends React.PureComponent {
     const colAttrsCell = this.makeDnDCell(
       colAttrs,
       this.propUpdater('cols'),
-      'pt-8',
-      "Columns"
+      'pt-8'
     );
 
     const rowAttrs = this.props.rows.filter(
@@ -544,8 +545,7 @@ class PivotTableUI extends React.PureComponent {
     const rowAttrsCell = this.makeDnDCell(
       rowAttrs,
       this.propUpdater('rows'),
-      'mt-8 rowCustom',
-      "Rows"
+      'mt-8'
     );
     const outputCell = (
       <td className="pvtOutput">
@@ -559,7 +559,7 @@ class PivotTableUI extends React.PureComponent {
 
     if (horizUnused) {
       return (
-        <table className="pvtUi">
+        <table className="pvtUi mb-4">
           <tbody onClick={() => this.setState({openDropdown: false})}>
             <tr>
               {rendererCell}
@@ -580,9 +580,9 @@ class PivotTableUI extends React.PureComponent {
               </td>
             </tr>
             <tr>
-              <td className='relative pvtAxisContainer pvtVertList pvtRows '>
-              <label className='absolute pl-3 pr-2 text-sm font-bold bg-white'>Rows</label>
-              {rowAttrsCell}
+              <td className='relative pvtAxisContainer pvtVertList pvtRows'>
+                <label className='absolute top-2 pl-2 pr-2 text-sm font-bold bg-white'>Rows</label>
+                {rowAttrsCell}
               </td>
               {outputCell}
             </tr>
