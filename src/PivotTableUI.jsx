@@ -68,7 +68,7 @@ export class DraggableAttribute extends React.Component {
           {showMenu || <p>(too many values to show)</p>}
 
           {showMenu && (
-            <p>
+            <p className='flex flex-col pl-3'>
               <input
                 type="text"
                 placeholder="Filter values"
@@ -80,7 +80,7 @@ export class DraggableAttribute extends React.Component {
                   })
                 }
               />
-              <br />
+              <div className='flex'>
               <a
                 role="button"
                 className="pvtButton"
@@ -96,7 +96,7 @@ export class DraggableAttribute extends React.Component {
                 }
                 }
               >
-                Select {values.length === shown.length ? 'All' : shown.length}
+                Select All {/*values.length === shown.length ? 'All' : shown.length*/}
               </a>{' '}
               <a
                 role="button"
@@ -110,8 +110,9 @@ export class DraggableAttribute extends React.Component {
                   )
                 }
               >
-                Deselect {values.length === shown.length ? 'All' : shown.length}
+                Deselect All {/*values.length === shown.length ? 'All' : shown.length*/}
               </a>
+              </div>
             </p>
           )}
 
@@ -121,12 +122,12 @@ export class DraggableAttribute extends React.Component {
                 <p
                   key={x}
                   onClick={() => this.toggleValue(x)}
-                  className={x in this.props.valueFilter ? '' : 'selected'}
+                  className={`${x in this.props.valueFilter ? '' : 'selected'} hover:cursor-pointer text-[12px]`}
                 >
                   <a className="pvtOnly" onClick={e => this.selectOnly(e, x)}>
                     {index+1}.
                   </a>
-                  <a className="pvtOnlySpacer">&nbsp;</a>
+                  {/* <a className="pvtOnlySpacer">&nbsp;</a> */}
 
                   {x === '' ? <em>null</em> : x}
                 </p>

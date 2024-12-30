@@ -334,8 +334,9 @@ table.pvtTable tbody tr td {
     /* display: none; */
     width: 35px;
     float: left;
+    font-weight: normal;
     font-size: 12px;
-    padding-left: 5px;
+    padding-left: 10px;
     cursor: pointer;
 }
 
