@@ -371,3 +371,11 @@ table.pvtTable tbody tr td {
 .pvtSearch{
     padding: 5px;
 }
+
+.drilling-buttons>button{
+    border: 1px solid gray
+}
+
+.drilling-buttons>button:hover{
+    background-color: #ebf0f8;
+}

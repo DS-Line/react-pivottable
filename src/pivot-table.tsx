@@ -13,9 +13,16 @@ import createPlotlyRenderers from './PlotlyRenderers';
 import TableRenderers from './TableRenderers';
 import Plot from 'react-plotly.js';
 
+interface DrillableColumnsData {
+  column: string;
+  drill_types: Array<'drill_up' | 'drill_down' | 'drill_across'>;
+}
+
 export default function LocalPivotTable({
   configurations,
   setConfigurations,
+  drillingInformation,
+  handleDrillingApiCalls,
 }: {
   configurations: Omit<PivotTableUIProps, 'onChange'> & {
     hideTotals: boolean;
@@ -25,9 +32,15 @@ export default function LocalPivotTable({
       hideTotals: boolean;
     }
   ) => void;
+  drillingInformation: DrillableColumnsData[] | null;
+  handleDrillingApiCalls: (
+    drillType: string,
+    columnName: string,
+    columnValue: string,
+    parentDrillColumn: string
+  ) => void;
 }) {
   const PlotlyRenderers = createPlotlyRenderers(Plot as any); // eslint-disable-line
-
   return (
     <div className="ml-8 max-w-[90%] max-h-[80dvh] h-full overflow-y-auto showSQL">
       <PivotTableUI
@@ -35,11 +48,14 @@ export default function LocalPivotTable({
         renderers={{...TableRenderers, ...PlotlyRenderers}}
         {...configurations}
         key="pivot-table"
+        drillingInformation={drillingInformation}
+        handleDrillingApiCalls={handleDrillingApiCalls}
         onChange={(
           e: Omit<PivotTableUIProps, 'onChange'> & {
             hideTotals: boolean;
           }
         ) => {
+          console.log(e.hideTotals);
           const {aggregators, renderers, ...rest} = e;
           const newAdditionToCols = e.cols?.filter(
             (el) => !configurations.cols?.includes(el)

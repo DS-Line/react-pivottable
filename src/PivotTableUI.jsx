@@ -13,7 +13,7 @@ import { ChevronDown, X } from 'lucide-react';
 export class DraggableAttribute extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {open: false, filterText: ''};
+    this.state = {open: false, filterText: '', drillableColumns:props.drillingInformation !== null?props.drillingInformation.map(el=> el.column):[]};
   }
 
   toggleValue(value) {
@@ -47,7 +47,7 @@ export class DraggableAttribute extends React.Component {
     const shown = values
       .filter(this.matchesFilter.bind(this))
       .sort(this.props.sorter);
-
+    const drillInfo=this.props.drillingInformation !== null && this.state.drillableColumns.includes(this.props.name)? this.props.drillingInformation.filter(el=> el.column === this.props.name).flatMap(el=> el.drill_types):[]
     return (
       <Draggable handle=".pvtDragHandle">
         <div
@@ -64,7 +64,28 @@ export class DraggableAttribute extends React.Component {
           </a>
           {/* <span className="pvtDragHandle">☰</span> */ } {/* remove drag and drop feature */}
           <h4>{this.props.name}</h4>
-
+          {(this.props.drillingInformation !== null && this.state.drillableColumns.includes(this.props.name)) && 
+            <div className='drilling-buttons ml-3 flex gap-2'>
+              {drillInfo.map(el=> {
+                switch(el){
+                  case "drill_up":
+                    return <button key={el} onClick={()=>{
+                      this.props.handleDrillingApiCalls("DRILL_UP", this.props.name,"","")
+                    }} className='p-2 border-[2px] rounded-sm'>Drill Up</button>
+                  case "drill_down":
+                    return <button key={el} onClick={()=>{
+                      this.props.handleDrillingApiCalls("DRILL_DOWN", this.props.name,"","")
+                    }} className='p-2 border-[2px] rounded-sm'>Drill Down</button>
+                  case "drill_across":
+                    return <button key={el} onClick={()=>{
+                      this.props.handleDrillingApiCalls("DRILL_ACROSS", this.props.name,"","")
+                    }} className='p-2 border-[2px] rounded-sm'>Drill Across</button>
+                  default:
+                    return <></>
+                }
+                })}
+            </div>
+          }
           {showMenu || <p>(too many values to show)</p>}
 
           {showMenu && (
@@ -242,6 +263,7 @@ class PivotTableUI extends React.PureComponent {
       openDropdown: false,
       attrValues: {},
       materializedInput: [],
+      hideTotals:props.hideTotals
     };
   }
 
@@ -373,7 +395,8 @@ class PivotTableUI extends React.PureComponent {
             moveFilterBoxToTop={this.moveFilterBoxToTop.bind(this)}
             removeValuesFromFilter={this.removeValuesFromFilter.bind(this)}
             zIndex={this.state.zIndices[x] || this.state.maxZIndex}
-
+            drillingInformation={this.props.drillingInformation}
+            handleDrillingApiCalls={this.props.handleDrillingApiCalls}
           />
         ))}
       </Sortable>
@@ -428,14 +451,13 @@ class PivotTableUI extends React.PureComponent {
         <label className="pl-1 text-sm font-bold">Aggregators</label>
         <label className='flex gap-1 text-sm items-center justify-center'>
         <input 
-        key={!this.state.hideTotals}
-        className='self-baseline'
-        onChange={()=> {
-            this.setState({
-              hideTotals:!this.state.hideTotals
-            })
-            this.propUpdater("hideTotals")(!this.state.hideTotals)
-            }} type='checkbox' placeholder='Show Totals' checked={this.showTotal(!this.state.hideTotals)}/>
+          className='self-baseline'
+          onChange={()=> {
+              this.setState({
+                hideTotals:!this.state.hideTotals
+              })
+              this.propUpdater("hideTotals")(!this.state.hideTotals)
+              }} type='checkbox' placeholder='Show Totals' checked={!this.state.hideTotals} />
           Show Totals
           </label>
           </div>
