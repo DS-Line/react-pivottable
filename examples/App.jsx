@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import tips from './tips';
 import {sortAs} from '../src/Utilities';
